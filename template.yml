@@ -6,32 +6,25 @@ Transform:
 Parameters:
   ProjectId:
     Type: String
-    Description: AWS Patronus Micro Services
-  InventoryNotification:
-    Type: String
-    Description: Inventory notification
+    Description: AWS CodeStar projectID used to associate new resources to team members
 
 Resources:
-  InventoryService:
-        Type: AWS::Serverless::Function
-        Properties:
-          Handler: index.handler
-          Runtime: nodejs4.3
-          Role:
-            Fn::ImportValue:
-              !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
-
-  InventoryResource:
-         Type: AWS::Serverless::Function
-         Properties:
-           Handler: index.handlerHttp
-           Runtime: nodejs4.3
-           Role:
-             Fn::ImportValue:
-               !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
-           Events:
-             GetEvent:
-               Type: Api
-               Properties:
-                 Path: /inventory/{CountryCode}/{SKU}
-                 Method: get
+  HelloWorld:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs4.3
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: post
